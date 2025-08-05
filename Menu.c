@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include "Menu.h"
 #include "Utilities.h"
+#include "Register.h"
 
 //function to display menu options and get choosen input 
 int Menu(){
@@ -32,6 +33,7 @@ int Menu(){
         break;
         case 4:
         printf("You have choosen to Register\n");
+        Register();
         break;
         case 0:
         printf("You have choosen Exit\n");
