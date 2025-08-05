@@ -1,0 +1,56 @@
+//Register module --> module for registration of new user's account  
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<time.h>
+#include "Utilities.h"
+#include "Register.h"
+
+
+
+//register function to get the details and store in datafiles
+int Register(){
+    //declaring variables 
+    char name[30],address[40],password[20];
+    int long mobileNo,aadharNo,accountNo;
+    float initialDeposit;
+
+     
+    //get input details
+    printf("Enter Accoutn Holder's Name : ");
+    fgets(name,sizeof(name),stdin);
+    name[strcspn(name,"\n")]='\0';
+    printf("Enter your Password for Your Account : ");
+    fgets(password,sizeof(password),stdin);
+    password[strcspn(password,"\n")]='\0';
+    printf("Enter Accoutn Holder's Address : ");
+    fgets(address,sizeof(address),stdin);
+    address[strcspn(address,"\n")]='\0';
+    printf("Enter Accoutn Holder's Aadhar Number : ");
+    scanf("%ld",&aadharNo);
+    printf("Enter Accoutn Holder's Mobile Number : ");
+    scanf("%ld",&mobileNo);
+    printf("Enter Initial Deposit Amount (in Rs,enter without comma) : ");
+    scanf("%f",&initialDeposit);
+    
+    
+    accountNo=RandomNumber(12345678,87654321);
+
+    //writing account details into data files
+    char file[]="Registrations.txt";
+    FILE *fp=fopen(file,"a+");
+    fseek(fp,0,SEEK_END);
+    fprintf(fp,"\n%ld-%s-%s-%s-%ld-%ld-%.2f",accountNo,password,name,address,aadharNo,mobileNo,initialDeposit);
+    fclose(fp);
+  
+    
+return 0;
+
+}
+
+int main(){
+
+Register();
+
+    return 0;
+}
