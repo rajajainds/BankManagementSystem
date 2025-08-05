@@ -4,16 +4,14 @@
 #include<stdlib.h>
 #include "Menu.h"
 #include "Utilities.h"
+#include "Register.h"
+#include "Manager.h"
 
 
 //main driver functoin of the system
 int main(){
 printf("*****-----Bank Management System-----*****\n\n");
 int choice=Menu();
-  printf("%d",choice);
-
-
-
 
 
 

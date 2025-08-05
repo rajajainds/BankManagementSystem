@@ -5,7 +5,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include "Utilities.h"
-
+#include<string.h>
 
 //function for clearing scanf input garbage buffers
 void ClearInputBuffer(){
@@ -20,4 +20,28 @@ int RandomNumber(int lower,int upper){
     srand(time(0));
     int num = (rand() % (upper - lower + 1)) + lower;
     return num;
+}
+
+//function to read line by line from text file
+int readLines(char *file){
+  FILE *fp=fopen(file,"r");
+    char line[256];
+    int lines;
+    
+    if (fp == NULL) {
+        perror("Unable to open file");
+        return 1;
+    }
+     
+    while (fgets(line, sizeof(line), fp)) {
+      if (strlen(line)>0){
+         lines+=1;
+        printf("%s", line);  // Print each line
+        }
+      }
+    
+
+    fclose(fp);
+
+  return lines;
 }

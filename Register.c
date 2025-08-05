@@ -5,6 +5,7 @@
 #include<time.h>
 #include "Utilities.h"
 #include "Register.h"
+#include "Menu.h"
 
 
 
@@ -14,21 +15,23 @@ int Register(){
     char name[30],address[40],password[20];
     int long mobileNo,aadharNo,accountNo;
     float initialDeposit;
+    
 
      
     //get input details
-    printf("Enter Accoutn Holder's Name : ");
+    printf("Enter Account Holder's Name : ");
+    ClearInputBuffer();
     fgets(name,sizeof(name),stdin);
     name[strcspn(name,"\n")]='\0';
     printf("Enter your Password for Your Account : ");
     fgets(password,sizeof(password),stdin);
     password[strcspn(password,"\n")]='\0';
-    printf("Enter Accoutn Holder's Address : ");
+    printf("Enter Account Holder's Address : ");
     fgets(address,sizeof(address),stdin);
     address[strcspn(address,"\n")]='\0';
-    printf("Enter Accoutn Holder's Aadhar Number : ");
+    printf("Enter Account Holder's Aadhar Number : ");
     scanf("%ld",&aadharNo);
-    printf("Enter Accoutn Holder's Mobile Number : ");
+    printf("Enter Account Holder's Mobile Number : ");
     scanf("%ld",&mobileNo);
     printf("Enter Initial Deposit Amount (in Rs,enter without comma) : ");
     scanf("%f",&initialDeposit);
@@ -45,12 +48,4 @@ int Register(){
   
     
 return 0;
-
-}
-
-int main(){
-
-Register();
-
-    return 0;
 }

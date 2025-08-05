@@ -1,9 +1,11 @@
 //Menu module for displaying menu of system to choose operation 
+//including header files
 #include<stdio.h>
 #include<stdlib.h>
 #include "Menu.h"
 #include "Utilities.h"
 #include "Register.h"
+#include "Manager.h"
 
 //function to display menu options and get choosen input 
 int Menu(){
@@ -38,6 +40,10 @@ int Menu(){
         case 0:
         printf("You have choosen Exit\n");
         exit(0);
+        break;
+        case -1:
+        printf("You have choosen secret option to login as Manager\n");
+        Manager();
         break;
         default:
         printf("Inavlid Choice!!! Choose again !!!\n");  
