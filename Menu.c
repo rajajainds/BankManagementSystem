@@ -19,10 +19,10 @@ int Menu(){
     printf("[4]-->New User(Regsiter)\n");
     printf("[0]-->Exit\n");
     printf("Enter Your Choice : ");
-    scanf("%d",&menuChoice);
+    scanf("%d",&menuChoice);//input of menu item that is choosed 
 
     
-
+    //function as per the choosen menu item
     switch (menuChoice){
         case 1:
         printf("You have choosen Deposit\n");
@@ -36,6 +36,7 @@ int Menu(){
         case 4:
         printf("You have choosen to Register\n");
         Register();
+        Menu();
         break;
         case 0:
         printf("You have choosen Exit\n");

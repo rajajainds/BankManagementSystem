@@ -35,6 +35,7 @@ int Register(){
     scanf("%ld",&mobileNo);
     printf("Enter Initial Deposit Amount (in Rs,enter without comma) : ");
     scanf("%f",&initialDeposit);
+    printf("Application Submitted !!! Wait for Review\n");
     
     
     accountNo=RandomNumber(12345678,87654321);
@@ -43,7 +44,7 @@ int Register(){
     char file[]="Registrations.txt";
     FILE *fp=fopen(file,"a+");
     fseek(fp,0,SEEK_END);
-    fprintf(fp,"\n%ld-%s-%s-%s-%ld-%ld-%.2f",accountNo,password,name,address,aadharNo,mobileNo,initialDeposit);
+    fprintf(fp,"%ld-%s-%s-%s-%ld-%ld-%.2f\n",accountNo,password,name,address,aadharNo,mobileNo,initialDeposit);
     fclose(fp);
   
     

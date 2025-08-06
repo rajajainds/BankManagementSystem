@@ -7,5 +7,5 @@ void ClearInputBuffer();
 
 int RandomNumber(int lower,int upper);
 
-int readLines(char *file);
+int readLines(char *file,int ifPrint);
 #endif

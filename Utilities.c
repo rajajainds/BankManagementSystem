@@ -23,22 +23,25 @@ int RandomNumber(int lower,int upper){
 }
 
 //function to read line by line from text file
-int readLines(char *file){
-  FILE *fp=fopen(file,"r");
+int readLines(char *file,int ifPrint){
+   FILE *fp=fopen(file,"r");
     char line[256];
-    int lines;
-    
+    int lines=0;
     if (fp == NULL) {
-        perror("Unable to open file");
-        return 1;
+        perror("Unable to Process right now");
+        return -1;
     }
      
     while (fgets(line, sizeof(line), fp)) {
       if (strlen(line)>0){
-         lines+=1;
-        printf("%s", line);  // Print each line
+         lines+=1;//counts total lines
+         if (ifPrint==1){
+         printf("%s", line); // Print each line if needed
+         } 
+
         }
       }
+      
     
 
     fclose(fp);
