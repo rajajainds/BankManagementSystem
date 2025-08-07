@@ -8,7 +8,48 @@
 #include "Utilities.h"
 
 //defining functions of Manager Module
-int reviewAccountCreation(){
+
+int IfApprovedMove(int passLines,int ifApprove){//passlines means lines to pass before our record arrives (=recordOnLine-1)
+    //fetching and deleting record that is approved and to be moved to login records of registerd users
+    char line[256];
+    char *file="Registrations.txt";
+    
+
+    //deleting this record from previous registration file
+    int totalLines=readLines(file,0);
+    FILE *fp=fopen(file,"r");
+    fseek(fp,0,SEEK_SET);
+    char linesToWrite[totalLines-1][256];
+    for(int i=0;i<totalLines;i++){
+        fgets(linesToWrite[i],sizeof(line),fp);
+          
+    }
+    fclose(fp);
+    
+      
+  //rewriting records excluding approved records
+    fp=fopen(file,"w");
+    fseek(fp,0,SEEK_SET);
+    for(int i=0;i<totalLines;i++){
+        if (i==passLines){
+            if (ifApprove==1){
+              FILE *loginfp=fopen("Logins.txt","a");
+              fprintf(loginfp,"%s",linesToWrite[i]);
+              fclose(loginfp);
+            }
+            continue;
+        }
+        else{
+        fprintf(fp,"%s",linesToWrite[i]);
+        }
+    }
+    fclose(fp);
+   return totalLines;
+   }
+
+
+
+int ReviewAccountCreation(){
     char *file="Registrations.txt";
     int lines=readLines(file,0);
     if (lines==-1){
@@ -28,14 +69,14 @@ int reviewAccountCreation(){
         do{
             pass=0;
             long int seekAccount;
-            int passLine=0;
+            int recordOnLine=0; //it denotes lines on which our record is present 
             fscanf(fp,"%ld",&seekAccount);
         while(seekAccount!=approveAccountCreation){
-            passLine+=1;
             fseek(fp,0,SEEK_SET);
-            for(int i=0;i<passLine;i++){
+            for(int i=-1;i<recordOnLine;i++){
                  fgets(line,sizeof(line),fp);
             }
+            recordOnLine+=1;
             fscanf(fp,"%ld",&seekAccount);
         }
         
@@ -52,10 +93,13 @@ int reviewAccountCreation(){
             switch (reviewAccount){
                case 1:
                //function to transfer that line to login files
+               IfApprovedMove(recordOnLine,1); //1 --> to write to logins
                printf("You have Approved this Account Creation !!!\n");
+               
                break;
                case 2:
                //function to delete this line 
+               IfApprovedMove(recordOnLine,0); //0 --> to not write it in logins
                printf("You have Declined this Account Creation !!!\n");
                break;
                case 0:
@@ -65,7 +109,6 @@ int reviewAccountCreation(){
                printf("Invalid Choice !! Choose Again\n");
                pass=1;
                
-
             }
         }
         }while(pass);
@@ -76,10 +119,7 @@ int reviewAccountCreation(){
     return 0;
 }
 
-    
-    
 
-   
 
 void Manager(){
     //initialising manager credentails for  manager login
@@ -107,7 +147,7 @@ void Manager(){
         switch (managerChoice){
             case 1:
             printf("You have Choosen to Approve Account Creation \n");
-            reviewAccountCreation();
+            ReviewAccountCreation();
             break;
             case 2:
             printf("You have Choosen to Approve Account Delation \n");

@@ -14,7 +14,5 @@ printf("*****-----Bank Management System-----*****\n\n");
 int choice=Menu();
 
 
-
-
     return 0;//returning success code
 }

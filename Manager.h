@@ -4,7 +4,7 @@
 
 
 //declaring methods of Manager module
-int reviewAccountCreation();
-
+int ReviewAccountCreation();
+int IfApprovedMove(int passLine,int ifApprove);
 void Manager();
 #endif
