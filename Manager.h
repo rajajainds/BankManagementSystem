@@ -1,4 +1,4 @@
-//Manager.h -->header fiel for Manager module
+//Manager.h -->header file for Manager module
 #ifndef MANAGAER_H
 #define MANAGAER_H
 

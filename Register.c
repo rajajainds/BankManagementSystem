@@ -13,7 +13,7 @@
 int Register(){
     //declaring variables 
     char name[30],address[40],password[20];
-    int long mobileNo,aadharNo,accountNo;
+    long int mobileNo,aadharNo,accountNo;
     float initialDeposit;
     
 
