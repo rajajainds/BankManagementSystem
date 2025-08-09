@@ -28,7 +28,7 @@ int readLines(char *file,int ifPrint){
     char line[256];
     int lines=0;
     if (fp == NULL) {
-        perror("Unable to Process right now");
+        perror("No Account With These credentails");
         return -1;
     }
      

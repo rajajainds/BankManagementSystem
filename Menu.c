@@ -7,6 +7,7 @@
 #include "Register.h"
 #include "Manager.h"
 #include "Login.h"
+#include "Deposit.h"
 
 //function to display menu options and get choosen input 
 int Menu(){
@@ -27,6 +28,7 @@ int Menu(){
     switch (menuChoice){
         case 1:
         printf("You have choosen Deposit\n");
+        Deposit();
         break;
         case 2:
         printf("You have choosen Withdraw\n");

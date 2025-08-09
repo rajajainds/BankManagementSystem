@@ -6,6 +6,8 @@
 #include "Manager.h"
 #include "Menu.h"
 #include "Utilities.h"
+#include "Login.h"
+#include "Deposit.h"
 
 //defining functions of Manager Module
 
@@ -45,7 +47,7 @@ int IfApprovedMove(int passLines,int ifApprove){//passlines means lines to pass 
     }
     fclose(fp);
    return totalLines;
-   }
+}
 
 
 

@@ -8,10 +8,45 @@
 #include "Menu.h"
 #include "Utilities.h"
 #include "Login.h"
+#include "Deposit.h"
 
 //defining function of Login Module
 
+int LoginMenu(){
+    int choice;
+    double amountD_W;
+    printf("**You can Choose from below options to continue**\n");
+    printf("[1]-Deposit\n");
+    printf("[2]-Withdraw\n");
+    printf("[3]-Apply to update Details\n");
+    printf("[4]-Exit\n");
+    printf("Enter your choice : ");
+    scanf("%d",&choice);
+    switch (choice){
+     case 1:
+     printf("You have selected to deposit--\n");
+     printf("Enter Deposit Amount :");
+     scanf("%f",&amountD_W);
+     //function to deposit amount 
+     break;
+     case 2:
+     printf("You have selected to Withdraw--\n");
+     printf("Enter Withdraw Amount :");
+     scanf("%f",&amountD_W);
+     //function to withdraw amount
+     case 3:
+     printf("You have selected to Update Details\n");
+     int updateChoice;
+     printf("Choose from below what to update--\n");
+     //create here the function and menu of updating  details
+     //to be done after deposit and withdraw feature
+     
 
+    }
+    return choice;
+}
+
+//function for logging in and fetching details
 int VerifyLogin(long int accountNo){
     char *file="logins.txt";
     FILE *fp;
@@ -67,7 +102,6 @@ int VerifyLogin(long int accountNo){
     float depositFetch;
     fscanf(fp,"%ld-%s-%s-%s-%ld-%ld-%.2f\n",&accountNoFetch,passwordFetch,nameFetch,addressFetch,&aadharNoFetch,&mobileNoFetch,&depositFetch);
     fclose(fp);
-     printf("Till here");//temporary
     char password[20];//input password if account matches 
     if (seekAccount==accountNo){
     printf("Enter your Password :");
@@ -77,7 +111,7 @@ int VerifyLogin(long int accountNo){
         printf("Below are Your Details--\n");
         printf("Name : %s\n",nameFetch);
         printf("Account Number : %ld\n",accountNoFetch);
-        printf("Aadhar Number : %ld\n\n"aadharNoFetch);
+        printf("Aadhar Number : %ld\n\n",aadharNoFetch);
         printf("***Your Current Balance : %.2f\n\n",depositFetch);
 
         //loginMenu function
@@ -107,9 +141,6 @@ scanf("%ld",&accountNo);
 
 //verifyig credentails and password ,details fetching 
 VerifyLogin(accountNo);
-
-
-
 
 return 0;
 }

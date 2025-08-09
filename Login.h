@@ -4,6 +4,6 @@
 
 //declaring function fof Login Module 
 int Login();//driver function of this module
-
+int LoginMenu();//menu to choose operations to do after successfull login
 int VerifyLogin(long int accountNo);
 #endif
