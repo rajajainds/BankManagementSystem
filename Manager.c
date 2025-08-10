@@ -50,7 +50,6 @@ int IfApprovedMove(int passLines,int ifApprove){//passlines means lines to pass 
 }
 
 
-
 int ReviewAccountCreation(){
     char *file="Registrations.txt";
     int lines=readLines(file,0);
@@ -130,12 +129,12 @@ void Manager(){
     ClearInputBuffer();
     printf("\n\nLooging in as Manager\n");
     printf("Enetr the Password :");
-    fgets(password,sizeof(password),stdin);
+    scanf("%s",password);
     
 
     //granting access if password is correct 
     int managerChoice;
-    if (strcmp(password,managerPass)){
+    if (strcmp(password,managerPass)==0){
         printf("You have logged in as Manager\n");
         printf("Choose from below options :\n");
         printf("[1]-Approve Account Creation\n");
@@ -152,7 +151,7 @@ void Manager(){
             ReviewAccountCreation();
             break;
             case 2:
-            printf("You have Choosen to Approve Account Delation \n");
+            printf("You have Choosen to Approve Account Deletion \n");
             break;
             case 3:
             printf("You have Choosen to Update Account Details \n");

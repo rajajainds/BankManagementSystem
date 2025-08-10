@@ -11,7 +11,7 @@
 //main driver functoin of the system
 int main(){
 printf("*****-----Bank Management System-----*****\n\n");
-int choice=Menu();
+Menu();
 
     return 0;//returning success code
 }

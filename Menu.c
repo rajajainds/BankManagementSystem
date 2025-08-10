@@ -8,6 +8,7 @@
 #include "Manager.h"
 #include "Login.h"
 #include "Deposit.h"
+#include "Withdraw.h"
 
 //function to display menu options and get choosen input 
 int Menu(){
@@ -32,6 +33,7 @@ int Menu(){
         break;
         case 2:
         printf("You have choosen Withdraw\n");
+        Withdraw();
         break;
         case 3:
         printf("You have choosen to Login\n");
@@ -40,7 +42,6 @@ int Menu(){
         case 4:
         printf("You have choosen to Register\n");
         Register();
-        Menu();
         break;
         case 0:
         printf("You have choosen Exit\n");
@@ -55,7 +56,9 @@ int Menu(){
         pass=1;//true logic
         ClearInputBuffer();//clearing input buffer so that no ambiguity occur
         
-    }}while(pass);
+    }
+    Menu();
+}while(pass);
 
  return menuChoice;
 }

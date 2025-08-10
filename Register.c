@@ -5,7 +5,6 @@
 #include<time.h>
 #include "Utilities.h"
 #include "Register.h"
-#include "Menu.h"
 
 
 
@@ -39,7 +38,7 @@ int Register(){
     
     
     accountNo=RandomNumber(12345678,87654321);
-
+    printf("You account NUmber is : %ld\n",accountNo);
     //writing account details into data files
     char file[]="Registrations.txt";
     FILE *fp=fopen(file,"a+");

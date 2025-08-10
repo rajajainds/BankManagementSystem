@@ -4,8 +4,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "Manager.h"
-#include "Menu.h"
 #include "Utilities.h"
 #include "Login.h"
 #include "Deposit.h"
@@ -100,13 +98,45 @@ int VerifyLogin(long int accountNo){
     char nameFetch[30],addressFetch[40],passwordFetch[20];
     long int mobileNoFetch,aadharNoFetch,accountNoFetch;
     float depositFetch;
-    fscanf(fp,"%ld-%s-%s-%s-%ld-%ld-%.2f\n",&accountNoFetch,passwordFetch,nameFetch,addressFetch,&aadharNoFetch,&mobileNoFetch,&depositFetch);
+    
+    fgets(line,sizeof(line),fp);
     fclose(fp);
+     //parsing string into orginal data types
+
+    const char * separator="-";
+   int i=0;
+   char arraysPasred[7][40];
+   char * token=strtok(line,separator);
+   strcpy(arraysPasred[0],token);
+   token=strtok(NULL,separator);
+   strcpy(arraysPasred[1],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[2],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[3],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[4],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[5],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[6],token);
+
+  // assigning arrays into original data types
+accountNoFetch=atol(arraysPasred[0]);
+strcpy(passwordFetch,arraysPasred[1]);
+strcpy(nameFetch,arraysPasred[2]);
+strcpy(addressFetch,arraysPasred[3]);
+aadharNoFetch=atol(arraysPasred[4]);
+mobileNoFetch=atol(arraysPasred[5]);
+depositFetch=atof(arraysPasred[6]);
+
+    
     char password[20];//input password if account matches 
     if (seekAccount==accountNo){
+    ClearInputBuffer();
     printf("Enter your Password :");
-    scanf("%s",&password);
-    if (strcmp(password,passwordFetch)){
+    scanf("%s",password);
+    if (strcmp(password,passwordFetch)==0){
         printf("You are logged in !!\n");
         printf("Below are Your Details--\n");
         printf("Name : %s\n",nameFetch);

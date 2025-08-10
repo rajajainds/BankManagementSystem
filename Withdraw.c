@@ -1,26 +1,26 @@
-//Deposit Module --> moduel for depositing amount into an account (anyone can deposit to anyones account)
+//Withdraw Module --> moduel for withdrawing amount from an account (only acout holder can witdraw by password)
 
 //inclduing header files
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include "Utilities.h"
-#include "Deposit.h"
+#include "Withdraw.h"
 
-//Defining functin of Deposit Module
-int Deposit(){
-    long int depositAccount;
-    float depositAmount;
- printf("Enter Account Number to Deposit : ");
- scanf("%ld",&depositAccount);
-  printf("Enter the Amount to Deposit (in Rs ,without comma) : ");
- scanf("%f",&depositAmount);
- UpdateDepositAmount(depositAccount,depositAmount,1);
+//Defining functin of Withdraw Module
+int Withdraw(){
+    long int withdrawAccount;
+    float withdrawAmount;
+ printf("Enter Account Number to Withdraw from : ");
+ scanf("%ld",&withdrawAccount);
+  printf("Enter the Amount to Withdraw (in Rs ,without comma) : ");
+ scanf("%f",&withdrawAmount);
+ UpdateWithdrawAmount(withdrawAccount,withdrawAmount,1);
  
     return 0;
 }
 
-int UpdateDepositAmount(long int depositAccount,float depositAmount,int if_D_W){
+int UpdateWithdrawAmount(long int withdrawAccount,float withdrawAmount,int if_D_W){
     char *file="logins.txt";
     FILE *fp;
     //global variables
@@ -42,7 +42,7 @@ int UpdateDepositAmount(long int depositAccount,float depositAmount,int if_D_W){
             recordOnLine=1; //it denotes lines on which our record is present 
             fscanf(fp,"%ld",&seekAccount);
 
-        while(seekAccount!=depositAccount){
+        while(seekAccount!=withdrawAccount){
             fseek(fp,0,SEEK_SET);
             for(int i=0;i<recordOnLine;i++){
                  fgets(line,sizeof(line),fp);
@@ -51,7 +51,7 @@ int UpdateDepositAmount(long int depositAccount,float depositAmount,int if_D_W){
             recordOnLine+=1;
             fscanf(fp,"%ld",&seekAccount);
         }
-       if(seekAccount==depositAccount){
+       if(seekAccount==withdrawAccount){
                pass=0;
                
             }
@@ -107,10 +107,14 @@ aadharNoFetch=atol(arraysPasred[4]);
 mobileNoFetch=atol(arraysPasred[5]);
 depositFetch=atof(arraysPasred[6]);
 
-//deposit added
-depositFetch+=depositAmount;//deposit performed
 
-    
+//passwprd verification
+char passwordInput[20];
+ClearInputBuffer();
+printf("Enter Your password to confirm :");
+scanf("%s",passwordInput);
+if (strcmp(passwordFetch,passwordInput)==0){
+
     int passLines=recordOnLine-1; //lines topass before our desire record
 
     //rewriting records modifying Balance in account records
@@ -128,7 +132,8 @@ depositFetch+=depositAmount;//deposit performed
     for(int i=0;i<totalLines;i++){
         if (i==passLines){
             if (if_D_W==1){
-              fprintf(fp,"%ld-%s-%s-%s-%ld-%ld-%.2f\n",accountNoFetch,passwordFetch,nameFetch,addressFetch,aadharNoFetch,mobileNoFetch,depositFetch);
+                //balance updated in below line
+              fprintf(fp,"%ld-%s-%s-%s-%ld-%ld-%.2f\n",accountNoFetch,passwordFetch,nameFetch,addressFetch,aadharNoFetch,mobileNoFetch,(float)(depositFetch-withdrawAmount));
    
             continue;
         }
@@ -139,5 +144,10 @@ depositFetch+=depositAmount;//deposit performed
 
 }
 fclose(fp);
+printf("Amount Withdrawn Successfully !!!\n");
+}
+else{
+    printf("Your password was wrong !!! Try again !!\n");
+}
 return 0;
 }

@@ -5,5 +5,5 @@
 //Delaring functions of Deposit Module 
 int Deposit();//main driver function of Deposit module 
 
-int UpdateAmountInAccount(long int depositAccount,float depositAmount,int if_D_W); //updating amount by  Deposit(without login) and withdraw (with login )
+int UpdateDepositAmount(long int depositAccount,float depositAmount,int if_D_W); //updating amount by  Deposit(without login) and withdraw (with login )
 #endif
