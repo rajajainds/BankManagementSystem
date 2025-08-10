@@ -138,7 +138,7 @@ void Manager(){
         printf("You have logged in as Manager\n");
         printf("Choose from below options :\n");
         printf("[1]-Approve Account Creation\n");
-        printf("[2]-Approve Account Delation\n");
+        printf("[2]-Approve Account Deletion\n");
         printf("[0]-Go Back\n");
         printf("Enter Your Choice : ");
         scanf("%d",&managerChoice);

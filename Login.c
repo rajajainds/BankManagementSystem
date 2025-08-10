@@ -10,6 +10,81 @@
 #include "Withdraw.h"
 //defining function of Login Module
 
+int DeRegister(long int accountNoFetch){
+    char fetchStatement[21];
+    char realStatement[21]="YES CLOSE MY ACCOUNT";
+     printf("Please write this below without brackets (YES CLOSE MY ACCOUNT) --\n");
+     printf("Confirm Your Account Closing :");
+     fgets(fetchStatement,sizeof(fetchStatement),stdin);
+     fetchStatement[strcspn(fetchStatement,"\n")]='\0';
+     if (strcmp(realStatement,fetchStatement)==0){
+        //finding account detals to write to DeRegistrations,txt
+    char *file="logins.txt";
+    FILE *fp;
+    //global variables
+    long int seekAccount;
+    int recordOnLine; 
+    char line[256];
+    int lines=readLines(file,0);
+    if (lines==-1){
+        printf("No Account Found with these Credentials !!!\n");
+        
+    }
+    else if (lines>0){
+        
+        fp=fopen(file,"r");
+        fseek(fp,0,SEEK_SET);
+        int pass;
+        do{
+            pass=1;
+            recordOnLine=1; //it denotes lines on which our record is present 
+            fscanf(fp,"%ld",&seekAccount);
+
+        while(seekAccount!=accountNoFetch){
+            fseek(fp,0,SEEK_SET);
+            for(int i=0;i<recordOnLine;i++){
+                 fgets(line,sizeof(line),fp);
+                 
+            }
+            recordOnLine+=1;
+            fscanf(fp,"%ld",&seekAccount);
+        }
+       if(seekAccount==accountNoFetch){
+               pass=0;
+               
+            }
+        }while(pass);
+        
+    }
+    else{
+       printf("No Account Found with these Credentials !!!\n");
+       
+    }
+    fclose(fp);
+   //fetching details of the account and verifying password
+   fp=fopen(file,"r");
+   fseek(fp,0,SEEK_SET);
+   for(int i=1;i<recordOnLine;i++){ //stop before the desired record
+                 fgets(line,sizeof(line),fp);
+        }
+
+   
+    fgets(line,sizeof(line),fp);
+    fclose(fp);
+    
+    //writing it in new Deresgiatrations.txt
+    fp=fopen("DeRegistrations.txt","a+");
+    fprintf(fp,line);
+    fclose(fp);
+       
+    printf("Applied for Account Closing!! Wait for Review\n");
+     }
+     else {
+      printf("You Entered wrong Phrase!! Acount Closing Failed!!!\n");
+     }
+
+}
+
 
 int LoginMenu(long int accountNoFetch){
     int choice;
@@ -17,6 +92,7 @@ int LoginMenu(long int accountNoFetch){
     printf("[1]-Deposit\n");
     printf("[2]-Withdraw\n");
     printf("[3]-Apply to update Details\n");
+    printf("[4]-Apply to close Account\n");
     printf("[0]-Exit\n");
     printf("Enter your choice : ");
     scanf("%d",&choice);
@@ -26,21 +102,36 @@ int LoginMenu(long int accountNoFetch){
      //function to deposit amount 
      Deposit();
      break;
+
      case 2:
      printf("You have selected to Withdraw--\n");
      //function to withdraw amount
      Withdraw();
+     break;
+
      case 3:
      printf("You have selected to Update Details\n");
      // function and menu of updating  details
      UpdateDetails(accountNoFetch);
+     break;
+    
+     case 4:
+     printf("You have selected to Close Account\n");
+     ClearInputBuffer();
+     //function to apply for closing account
+     DeRegister(accountNoFetch);
+     break;
+
      case 0:
      exit(0);
      break;
+
      default:
      printf("Wrong Choice !!Choose Again !!\n");
+     break;
 
     }
+    ClearInputBuffer();
     LoginMenu(accountNoFetch);
     return choice;
 }
