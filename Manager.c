@@ -139,8 +139,6 @@ void Manager(){
         printf("Choose from below options :\n");
         printf("[1]-Approve Account Creation\n");
         printf("[2]-Approve Account Delation\n");
-        printf("[3]-Update Accounts Details\n");
-        printf("[4]-Update Accounts balance\n");
         printf("[0]-Go Back\n");
         printf("Enter Your Choice : ");
         scanf("%d",&managerChoice);
@@ -152,12 +150,6 @@ void Manager(){
             break;
             case 2:
             printf("You have Choosen to Approve Account Deletion \n");
-            break;
-            case 3:
-            printf("You have Choosen to Update Account Details \n");
-            break;
-            case 4:
-            printf("You have Choosen to Update Account Balance \n");
             break;
             case 0:
             printf("You have Choosen to Go Back \n");

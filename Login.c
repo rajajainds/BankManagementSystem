@@ -7,42 +7,217 @@
 #include "Utilities.h"
 #include "Login.h"
 #include "Deposit.h"
-
+#include "Withdraw.h"
 //defining function of Login Module
 
-int LoginMenu(){
+
+int LoginMenu(long int accountNoFetch){
     int choice;
-    double amountD_W;
     printf("**You can Choose from below options to continue**\n");
     printf("[1]-Deposit\n");
     printf("[2]-Withdraw\n");
     printf("[3]-Apply to update Details\n");
-    printf("[4]-Exit\n");
+    printf("[0]-Exit\n");
     printf("Enter your choice : ");
     scanf("%d",&choice);
     switch (choice){
      case 1:
      printf("You have selected to deposit--\n");
-     printf("Enter Deposit Amount :");
-     scanf("%f",&amountD_W);
      //function to deposit amount 
+     Deposit();
      break;
      case 2:
      printf("You have selected to Withdraw--\n");
-     printf("Enter Withdraw Amount :");
-     scanf("%f",&amountD_W);
      //function to withdraw amount
+     Withdraw();
      case 3:
      printf("You have selected to Update Details\n");
-     int updateChoice;
-     printf("Choose from below what to update--\n");
-     //create here the function and menu of updating  details
-     //to be done after deposit and withdraw feature
-     
+     // function and menu of updating  details
+     UpdateDetails(accountNoFetch);
+     case 0:
+     exit(0);
+     break;
+     default:
+     printf("Wrong Choice !!Choose Again !!\n");
 
     }
+    LoginMenu(accountNoFetch);
     return choice;
 }
+
+
+//function for updating details
+int UpdateDetails(long int accountNo){
+
+    char *file="logins.txt";
+    FILE *fp;
+    //global variables
+    long int seekAccount;
+    int recordOnLine; 
+    char line[256];
+    int lines=readLines(file,0);
+    if (lines==-1){
+        printf("No Account Found with these Credentials !!!\n");
+        
+    }
+    else if (lines>0){
+        
+        fp=fopen(file,"r");
+        fseek(fp,0,SEEK_SET);
+        int pass;
+        do{
+            pass=1;
+            recordOnLine=1; //it denotes lines on which our record is present 
+            fscanf(fp,"%ld",&seekAccount);
+
+        while(seekAccount!=accountNo){
+            fseek(fp,0,SEEK_SET);
+            for(int i=0;i<recordOnLine;i++){
+                 fgets(line,sizeof(line),fp);
+                 
+            }
+            recordOnLine+=1;
+            fscanf(fp,"%ld",&seekAccount);
+        }
+       if(seekAccount==accountNo){
+               pass=0;
+               
+            }
+        }while(pass);
+        
+    }
+    else{
+       printf("No Account Found with these Credentials !!!\n");
+       
+    }
+    fclose(fp);
+   //fetching details of the account and verifying password
+   fp=fopen(file,"r");
+   fseek(fp,0,SEEK_SET);
+   for(int i=1;i<recordOnLine;i++){ //stop before the desired record
+                 fgets(line,sizeof(line),fp);
+        }
+
+    //temporary variables for fetching account details
+     char nameFetch[30],addressFetch[40],passwordFetch[20];
+    long int mobileNoFetch,aadharNoFetch,accountNoFetch;
+    float depositFetch;
+    fgets(line,sizeof(line),fp);
+    fclose(fp);
+    
+    //parsing string into orginal data types
+
+    const char * separator="-";
+   int i=0;
+   char arraysPasred[7][40];
+   char * token=strtok(line,separator);
+   strcpy(arraysPasred[0],token);
+   token=strtok(NULL,separator);
+   strcpy(arraysPasred[1],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[2],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[3],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[4],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[5],token);
+     token=strtok(NULL,separator);
+   strcpy(arraysPasred[6],token);
+
+  // assigning arrays into original data types
+accountNoFetch=atol(arraysPasred[0]);
+strcpy(passwordFetch,arraysPasred[1]);
+strcpy(nameFetch,arraysPasred[2]);
+strcpy(addressFetch,arraysPasred[3]);
+aadharNoFetch=atol(arraysPasred[4]);
+mobileNoFetch=atol(arraysPasred[5]);
+depositFetch=atof(arraysPasred[6]);
+
+
+//updating Account Details
+
+    inputUpdatedDetails:
+     int updateChoice;
+     printf("Choose from below what to update--\n");
+     printf("[1]-Account Holder's Name\n");
+     printf("[2]-Account Holder's Address\n");
+     printf("[3]-Account Holder's Mobile Number\n");
+     printf("[4]-Account's Login Password\n");
+     printf("[0]-Go Back\n");
+     printf("Enter Your Choice : ");
+     scanf("%d",&updateChoice);
+     switch (updateChoice){
+        //get updated input details
+    case 1:
+    printf("Current Account Holder's Name is : %s\n",nameFetch);
+    printf("Change Name to : ");
+    ClearInputBuffer();
+    fgets(nameFetch,sizeof(nameFetch),stdin);
+    nameFetch[strcspn(nameFetch,"\n")]='\0';
+    break;
+
+    case 4:
+    printf("Current Account Holder's Password is : %s\n",passwordFetch);
+    printf("Change Password for Your Account to : ");
+    fgets(passwordFetch,sizeof(passwordFetch),stdin);
+    passwordFetch[strcspn(passwordFetch,"\n")]='\0';
+    break;
+
+    case 2:
+    printf("Current Account Holder's Address is : %s\n",addressFetch);
+    printf("Change Address to : ");
+    fgets(addressFetch,sizeof(addressFetch),stdin);
+    addressFetch[strcspn(addressFetch,"\n")]='\0';
+    break;
+
+    case 3:
+    printf("Current Account Holder's Mobile Number is : %ld\n",mobileNoFetch);
+    printf("Change Mobile Number to : ");
+    scanf("%ld",&mobileNoFetch);
+    break;
+
+    case 0:
+    LoginMenu(accountNoFetch);
+    break;
+
+    default:
+    printf("Invalid Choice !! Choose Again !!\n");
+    goto inputUpdatedDetails;
+    break;
+
+   }
+
+    
+    int passLines=recordOnLine-1; //lines topass before our desire record
+
+    //rewriting records modifying Details in account records
+     int totalLines=readLines(file,0);
+    fp=fopen(file,"r");
+    fseek(fp,0,SEEK_SET);
+    char linesToWrite[totalLines-1][256];
+    for(int i=0;i<totalLines;i++){
+        fgets(linesToWrite[i],sizeof(line),fp);
+          
+    }
+    fclose(fp);
+    fp=fopen(file,"w");
+    fseek(fp,0,SEEK_SET);
+    for(int i=0;i<totalLines;i++){
+        if (i==passLines){   
+              fprintf(fp,"%ld-%s-%s-%s-%ld-%ld-%.2f\n",accountNoFetch,passwordFetch,nameFetch,addressFetch,aadharNoFetch,mobileNoFetch,depositFetch);
+              continue;
+        
+        }
+        else{
+        fprintf(fp,"%s",linesToWrite[i]);
+        }
+
+}
+fclose(fp);
+return 0;
+}
+
 
 //function for logging in and fetching details
 int VerifyLogin(long int accountNo){
@@ -144,7 +319,7 @@ depositFetch=atof(arraysPasred[6]);
         printf("Aadhar Number : %ld\n\n",aadharNoFetch);
         printf("***Your Current Balance : %.2f\n\n",depositFetch);
 
-        //loginMenu function
+        LoginMenu(accountNoFetch);
     }else {
         printf( "you can't login !! Wrong Password !!\n");
     }
