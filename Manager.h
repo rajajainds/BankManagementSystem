@@ -6,5 +6,7 @@
 //declaring methods of Manager module
 int ReviewAccountCreation();
 int IfApprovedMove(int passLine,int ifApprove);
+int ReviewAccountDeletion();
+int IfApprovedRemove(int passLinesLogins,int passLinesDeRegistrations,int ifApprove);
 void Manager();
 #endif
