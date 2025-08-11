@@ -15,7 +15,14 @@ int Deposit(){
  scanf("%ld",&depositAccount);
   printf("Enter the Amount to Deposit (in Rs ,without comma) : ");
  scanf("%f",&depositAmount);
- UpdateDepositAmount(depositAccount,depositAmount,1);
+ 
+ if (IfAccountExists("Logins.txt",depositAccount)==1){
+UpdateDepositAmount(depositAccount,depositAmount,1);
+}
+else{
+    printf("No Account Exists with these credentials !!!\n");
+}
+ 
  
     return 0;
 }
@@ -138,6 +145,7 @@ depositFetch+=depositAmount;//deposit performed
         }
 
 }
+printf("Deposit Successfull !!\n");
 fclose(fp);
 return 0;
 }

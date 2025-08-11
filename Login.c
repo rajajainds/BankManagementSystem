@@ -8,6 +8,7 @@
 #include "Login.h"
 #include "Deposit.h"
 #include "Withdraw.h"
+#include "Menu.h"
 //defining function of Login Module
 
 int DeRegister(long int accountNoFetch){
@@ -93,7 +94,7 @@ int LoginMenu(long int accountNoFetch){
     printf("[2]-Withdraw\n");
     printf("[3]-Apply to update Details\n");
     printf("[4]-Apply to close Account\n");
-    printf("[0]-Exit\n");
+    printf("[0]-Go Back\n");
     printf("Enter your choice : ");
     scanf("%d",&choice);
     switch (choice){
@@ -123,7 +124,7 @@ int LoginMenu(long int accountNoFetch){
      break;
 
      case 0:
-     exit(0);
+     Menu();
      break;
 
      default:
@@ -146,6 +147,7 @@ int UpdateDetails(long int accountNo){
     long int seekAccount;
     int recordOnLine; 
     char line[256];
+    int pass;
     int lines=readLines(file,0);
     if (lines==-1){
         printf("No Account Found with these Credentials !!!\n");
@@ -155,7 +157,7 @@ int UpdateDetails(long int accountNo){
         
         fp=fopen(file,"r");
         fseek(fp,0,SEEK_SET);
-        int pass;
+        
         do{
             pass=1;
             recordOnLine=1; //it denotes lines on which our record is present 
@@ -170,19 +172,25 @@ int UpdateDetails(long int accountNo){
             recordOnLine+=1;
             fscanf(fp,"%ld",&seekAccount);
         }
+        
        if(seekAccount==accountNo){
                pass=0;
                
             }
+        else{
+           printf("No Account Found with these Credentials !!!\n");
+        }
         }while(pass);
         
     }
     else{
        printf("No Account Found with these Credentials !!!\n");
        
+       
     }
     fclose(fp);
    //fetching details of the account and verifying password
+   if (pass==0){
    fp=fopen(file,"r");
    fseek(fp,0,SEEK_SET);
    for(int i=1;i<recordOnLine;i++){ //stop before the desired record
@@ -199,7 +207,6 @@ int UpdateDetails(long int accountNo){
     //parsing string into orginal data types
 
     const char * separator="-";
-   int i=0;
    char arraysPasred[7][40];
    char * token=strtok(line,separator);
    strcpy(arraysPasred[0],token);
@@ -309,7 +316,8 @@ depositFetch=atof(arraysPasred[6]);
 }
 fclose(fp);
 printf("Details Updated\n");
-exit(0);
+}
+UpdateDetails(accountNo);
 return 0;
 }
 
@@ -322,11 +330,12 @@ int VerifyLogin(long int accountNo){
     long int seekAccount;
     int recordOnLine; 
     char line[256];
+   
     int lines=readLines(file,0);
     
     if (lines==-1){
         printf("No Account Found with these Credentials !!!\n");
-        exit(0);
+        LoginMenu(accountNo);
     }
     else if (lines>0){
         
@@ -353,6 +362,7 @@ int VerifyLogin(long int accountNo){
         }while(pass);
         fclose(fp);
 
+    
         //fetching details of the account and verifying password
    fp=fopen(file,"r");
    fseek(fp,0,SEEK_SET);
@@ -370,7 +380,7 @@ int VerifyLogin(long int accountNo){
      //parsing string into orginal data types
 
     const char * separator="-";
-   int i=0;
+  
    char arraysPasred[7][40];
    char * token=strtok(line,separator);
    strcpy(arraysPasred[0],token);
@@ -413,17 +423,19 @@ depositFetch=atof(arraysPasred[6]);
         LoginMenu(accountNoFetch);
     }else {
         printf( "you can't login !! Wrong Password !!\n");
+        LoginMenu(accountNo);
     }
     }
     else{
        printf("No Account Found with these Credentials !!!\n");
+       LoginMenu(accountNo);
     }
 
 
     }
     else{
         printf("Some Error Occured !! Try after some time\n");
-        exit(0);
+        LoginMenu(accountNo);
     }
     
 
@@ -444,7 +456,12 @@ printf("Enter your Account No. :");
 scanf("%ld",&accountNo);
 
 //verifyig credentails and password ,details fetching 
+if (IfAccountExists("Logins.txt",accountNo)==1){
 VerifyLogin(accountNo);
-
+}
+else{
+    printf("No Account Exists with these credentials !!!\n");
+    Menu();
+}
 return 0;
 }

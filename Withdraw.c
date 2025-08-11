@@ -6,6 +6,7 @@
 #include<string.h>
 #include "Utilities.h"
 #include "Withdraw.h"
+#include "Menu.h"
 
 //Defining functin of Withdraw Module
 int Withdraw(){
@@ -15,7 +16,14 @@ int Withdraw(){
  scanf("%ld",&withdrawAccount);
   printf("Enter the Amount to Withdraw (in Rs ,without comma) : ");
  scanf("%f",&withdrawAmount);
- UpdateWithdrawAmount(withdrawAccount,withdrawAmount,1);
+  if (IfAccountExists("Logins.txt",withdrawAccount)==1){
+UpdateWithdrawAmount(withdrawAccount,withdrawAmount,1);
+}
+else{
+    printf("No Account Exists with these credentials !!!\n");
+    Menu();
+}
+ 
  
     return 0;
 }

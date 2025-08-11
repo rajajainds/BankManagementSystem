@@ -45,3 +45,44 @@ int readLines(char *file,int ifPrint){
 
   return lines;
 }
+
+
+int IfAccountExists(char *file,long int accountNo){
+
+    FILE *fp=fopen(file,"r");
+        fseek(fp,0,SEEK_SET);
+        int pass;
+        int recordOnLine;
+        long int seekAccount;
+        char line[256];
+        do{
+            pass=1;
+            recordOnLine=1; //it denotes lines on which our record is present 
+            fscanf(fp,"%ld",&seekAccount);
+
+         while(seekAccount!=accountNo){
+            fseek(fp,0,SEEK_SET);
+            for(int i=0;i<recordOnLine;i++){
+                if(fgets(line,sizeof(line),fp)){
+                  
+                }
+                else{
+                  goto outsideLoop;
+                }
+                 
+            }
+            recordOnLine+=1;
+            fscanf(fp,"%ld",&seekAccount);
+        }
+        outsideLoop:
+       if(seekAccount==accountNo){
+               pass=0;
+               return 1;
+               
+            }
+            else{
+              return 0;
+            }
+        }while(pass);
+
+}

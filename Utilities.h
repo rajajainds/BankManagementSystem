@@ -8,4 +8,6 @@ void ClearInputBuffer();
 int RandomNumber(int lower,int upper);
 
 int readLines(char *file,int ifPrint);
+
+int IfAccountExists(char *file,long int accountNo);
 #endif
