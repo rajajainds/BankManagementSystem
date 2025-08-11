@@ -228,7 +228,6 @@ depositFetch=atof(arraysPasred[6]);
 
 //updating Account Details
 
-    inputUpdatedDetails:
      int updateChoice;
      printf("Choose from below what to update--\n");
      printf("[1]-Account Holder's Name\n");
@@ -238,6 +237,8 @@ depositFetch=atof(arraysPasred[6]);
      printf("[0]-Go Back\n");
      printf("Enter Your Choice : ");
      scanf("%d",&updateChoice);
+
+     
      switch (updateChoice){
         //get updated input details
     case 1:
@@ -251,6 +252,7 @@ depositFetch=atof(arraysPasred[6]);
     case 4:
     printf("Current Account Holder's Password is : %s\n",passwordFetch);
     printf("Change Password for Your Account to : ");
+    ClearInputBuffer();
     fgets(passwordFetch,sizeof(passwordFetch),stdin);
     passwordFetch[strcspn(passwordFetch,"\n")]='\0';
     break;
@@ -258,6 +260,7 @@ depositFetch=atof(arraysPasred[6]);
     case 2:
     printf("Current Account Holder's Address is : %s\n",addressFetch);
     printf("Change Address to : ");
+    ClearInputBuffer();
     fgets(addressFetch,sizeof(addressFetch),stdin);
     addressFetch[strcspn(addressFetch,"\n")]='\0';
     break;
@@ -265,6 +268,7 @@ depositFetch=atof(arraysPasred[6]);
     case 3:
     printf("Current Account Holder's Mobile Number is : %ld\n",mobileNoFetch);
     printf("Change Mobile Number to : ");
+    ClearInputBuffer();
     scanf("%ld",&mobileNoFetch);
     break;
 
@@ -273,13 +277,12 @@ depositFetch=atof(arraysPasred[6]);
     break;
 
     default:
-    printf("Invalid Choice !! Choose Again !!\n");
-    goto inputUpdatedDetails;
+    printf("Invalid Choice !!\n");
+    LoginMenu(accountNoFetch);
     break;
 
    }
 
-    
     int passLines=recordOnLine-1; //lines topass before our desire record
 
     //rewriting records modifying Details in account records
@@ -303,9 +306,10 @@ depositFetch=atof(arraysPasred[6]);
         else{
         fprintf(fp,"%s",linesToWrite[i]);
         }
-
 }
 fclose(fp);
+printf("Details Updated\n");
+exit(0);
 return 0;
 }
 
@@ -322,6 +326,7 @@ int VerifyLogin(long int accountNo){
     
     if (lines==-1){
         printf("No Account Found with these Credentials !!!\n");
+        exit(0);
     }
     else if (lines>0){
         
@@ -346,14 +351,9 @@ int VerifyLogin(long int accountNo){
                
             }
         }while(pass);
-        
-    }
-    else{
-        printf("Some Error Occured !! Try after some time\n");
-    }
-    fclose(fp);
-    
-   //fetching details of the account and verifying password
+        fclose(fp);
+
+        //fetching details of the account and verifying password
    fp=fopen(file,"r");
    fseek(fp,0,SEEK_SET);
    for(int i=1;i<recordOnLine;i++){ //stop before the desired record
@@ -418,6 +418,14 @@ depositFetch=atof(arraysPasred[6]);
     else{
        printf("No Account Found with these Credentials !!!\n");
     }
+
+
+    }
+    else{
+        printf("Some Error Occured !! Try after some time\n");
+        exit(0);
+    }
+    
 
     return 0;
 

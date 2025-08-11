@@ -28,7 +28,6 @@ int readLines(char *file,int ifPrint){
     char line[256];
     int lines=0;
     if (fp == NULL) {
-        perror("No Account With These credentails");
         return -1;
     }
      
@@ -42,8 +41,6 @@ int readLines(char *file,int ifPrint){
         }
       }
       
-    
-
     fclose(fp);
 
   return lines;
