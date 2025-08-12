@@ -147,7 +147,6 @@ int UpdateDetails(long int accountNo){
     long int seekAccount;
     int recordOnLine; 
     char line[256];
-    int pass;
     int lines=readLines(file,0);
     if (lines==-1){
         printf("No Account Found with these Credentials !!!\n");
@@ -157,7 +156,7 @@ int UpdateDetails(long int accountNo){
         
         fp=fopen(file,"r");
         fseek(fp,0,SEEK_SET);
-        
+        int pass;
         do{
             pass=1;
             recordOnLine=1; //it denotes lines on which our record is present 
@@ -172,25 +171,19 @@ int UpdateDetails(long int accountNo){
             recordOnLine+=1;
             fscanf(fp,"%ld",&seekAccount);
         }
-        
        if(seekAccount==accountNo){
                pass=0;
                
             }
-        else{
-           printf("No Account Found with these Credentials !!!\n");
-        }
         }while(pass);
         
     }
     else{
        printf("No Account Found with these Credentials !!!\n");
        
-       
     }
     fclose(fp);
    //fetching details of the account and verifying password
-   if (pass==0){
    fp=fopen(file,"r");
    fseek(fp,0,SEEK_SET);
    for(int i=1;i<recordOnLine;i++){ //stop before the desired record
@@ -207,6 +200,7 @@ int UpdateDetails(long int accountNo){
     //parsing string into orginal data types
 
     const char * separator="-";
+   int i=0;
    char arraysPasred[7][40];
    char * token=strtok(line,separator);
    strcpy(arraysPasred[0],token);
@@ -235,6 +229,7 @@ depositFetch=atof(arraysPasred[6]);
 
 //updating Account Details
 
+    inputUpdatedDetails:
      int updateChoice;
      printf("Choose from below what to update--\n");
      printf("[1]-Account Holder's Name\n");
@@ -244,11 +239,10 @@ depositFetch=atof(arraysPasred[6]);
      printf("[0]-Go Back\n");
      printf("Enter Your Choice : ");
      scanf("%d",&updateChoice);
-
-     
      switch (updateChoice){
         //get updated input details
     case 1:
+    ClearInputBuffer();
     printf("Current Account Holder's Name is : %s\n",nameFetch);
     printf("Change Name to : ");
     ClearInputBuffer();
@@ -257,25 +251,25 @@ depositFetch=atof(arraysPasred[6]);
     break;
 
     case 4:
+    ClearInputBuffer();
     printf("Current Account Holder's Password is : %s\n",passwordFetch);
     printf("Change Password for Your Account to : ");
-    ClearInputBuffer();
     fgets(passwordFetch,sizeof(passwordFetch),stdin);
     passwordFetch[strcspn(passwordFetch,"\n")]='\0';
     break;
 
     case 2:
+    ClearInputBuffer();
     printf("Current Account Holder's Address is : %s\n",addressFetch);
     printf("Change Address to : ");
-    ClearInputBuffer();
     fgets(addressFetch,sizeof(addressFetch),stdin);
     addressFetch[strcspn(addressFetch,"\n")]='\0';
     break;
 
     case 3:
+    ClearInputBuffer();
     printf("Current Account Holder's Mobile Number is : %ld\n",mobileNoFetch);
     printf("Change Mobile Number to : ");
-    ClearInputBuffer();
     scanf("%ld",&mobileNoFetch);
     break;
 
@@ -284,12 +278,13 @@ depositFetch=atof(arraysPasred[6]);
     break;
 
     default:
-    printf("Invalid Choice !!\n");
-    LoginMenu(accountNoFetch);
+    printf("Invalid Choice !! Choose Again !!\n");
+    goto inputUpdatedDetails;
     break;
 
    }
 
+    
     int passLines=recordOnLine-1; //lines topass before our desire record
 
     //rewriting records modifying Details in account records
@@ -313,14 +308,13 @@ depositFetch=atof(arraysPasred[6]);
         else{
         fprintf(fp,"%s",linesToWrite[i]);
         }
+
 }
 fclose(fp);
-printf("Details Updated\n");
-}
-UpdateDetails(accountNo);
+printf("Details Updated !!!");
+LoginMenu(accountNoFetch);
 return 0;
 }
-
 
 //function for logging in and fetching details
 int VerifyLogin(long int accountNo){
@@ -381,30 +375,30 @@ int VerifyLogin(long int accountNo){
 
     const char * separator="-";
   
-   char arraysPasred[7][40];
+   char arraysParsed[7][40];
    char * token=strtok(line,separator);
-   strcpy(arraysPasred[0],token);
+   strcpy(arraysParsed[0],token);
    token=strtok(NULL,separator);
-   strcpy(arraysPasred[1],token);
+   strcpy(arraysParsed[1],token);
      token=strtok(NULL,separator);
-   strcpy(arraysPasred[2],token);
+   strcpy(arraysParsed[2],token);
      token=strtok(NULL,separator);
-   strcpy(arraysPasred[3],token);
+   strcpy(arraysParsed[3],token);
      token=strtok(NULL,separator);
-   strcpy(arraysPasred[4],token);
+   strcpy(arraysParsed[4],token);
      token=strtok(NULL,separator);
-   strcpy(arraysPasred[5],token);
+   strcpy(arraysParsed[5],token);
      token=strtok(NULL,separator);
-   strcpy(arraysPasred[6],token);
+   strcpy(arraysParsed[6],token);
 
   // assigning arrays into original data types
-accountNoFetch=atol(arraysPasred[0]);
-strcpy(passwordFetch,arraysPasred[1]);
-strcpy(nameFetch,arraysPasred[2]);
-strcpy(addressFetch,arraysPasred[3]);
-aadharNoFetch=atol(arraysPasred[4]);
-mobileNoFetch=atol(arraysPasred[5]);
-depositFetch=atof(arraysPasred[6]);
+accountNoFetch=atol(arraysParsed[0]);
+strcpy(passwordFetch,arraysParsed[1]);
+strcpy(nameFetch,arraysParsed[2]);
+strcpy(addressFetch,arraysParsed[3]);
+aadharNoFetch=atol(arraysParsed[4]);
+mobileNoFetch=atol(arraysParsed[5]);
+depositFetch=atof(arraysParsed[6]);
 
     
     char password[20];//input password if account matches 
@@ -423,19 +417,19 @@ depositFetch=atof(arraysPasred[6]);
         LoginMenu(accountNoFetch);
     }else {
         printf( "you can't login !! Wrong Password !!\n");
-        LoginMenu(accountNo);
+        VerifyLogin(accountNo);
     }
     }
     else{
        printf("No Account Found with these Credentials !!!\n");
-       LoginMenu(accountNo);
+       Menu();
     }
 
 
     }
     else{
         printf("Some Error Occured !! Try after some time\n");
-        LoginMenu(accountNo);
+        Menu();
     }
     
 

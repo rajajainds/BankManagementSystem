@@ -128,6 +128,9 @@ int ReviewAccountCreation(){
         long int  approveAccountCreation;
         printf("\nEnter Account Number :");
         scanf("%ld",&approveAccountCreation);
+
+        //verifying if account exists
+      if(IfAccountExists("Registrations.txt",approveAccountCreation)==1) { 
         char line[256];
         FILE *fp=fopen(file,"r");
         fseek(fp,0,SEEK_SET);
@@ -179,6 +182,12 @@ int ReviewAccountCreation(){
             }
         }
         }while(pass);
+
+    }
+    else {
+        printf("No Appliication for these account credentials !!");
+        
+    }
     }
     else{
         printf("Some Error Occured !! Try after some time\n");
@@ -199,6 +208,8 @@ int ReviewAccountDeletion(){
         long int  approveAccountDeletion;
         printf("\nEnter Account Number :");
         scanf("%ld",&approveAccountDeletion);
+
+        if(IfAccountExists("DeRegistrations.txt",approveAccountDeletion)){
         char line[256];
         
          //for finding recordline in DeRegistrations file
@@ -274,6 +285,11 @@ int ReviewAccountDeletion(){
             }
         }
         }while(pass);
+
+         }
+       else {
+        printf("No Appliication for these account credentials !!");
+      }
         
     }
 
