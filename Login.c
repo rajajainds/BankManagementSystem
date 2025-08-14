@@ -311,7 +311,7 @@ depositFetch=atof(arraysPasred[6]);
 
 }
 fclose(fp);
-printf("Details Updated !!!");
+printf("Details Updated !!!\n");
 LoginMenu(accountNoFetch);
 return 0;
 }
