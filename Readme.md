@@ -69,7 +69,7 @@ It is a system that features --
 ## ⚙️ Installation
 ```bash
 # 1. Clone the repository
-git clone //github repository
+git clone https://github.com/rajajainds/BankManagementSystem
 
 # 2. Navigate into the project folder
 cd BankManagementSystem
