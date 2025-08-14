@@ -23,8 +23,8 @@ _A short project to demonstrate the File handling and logic buidling in C lang._
 
 
 ## 📖 About
-Bank Management System is a CLI (Comand Line Interface) tool that domonstrates the C lang possibilities 
-of handling files and logic buiding with help of simple short project that can help understanding 
+Bank Management System is a CLI (Command Line Interface) tool that domonstrates the C lang possibilities 
+of handling files and logic building with help of simple short project that can help understanding 
 basic c concepts.
 
 It is a system that features --
@@ -37,7 +37,7 @@ It is a system that features --
 
 [4]-Deposit to one's account without authentication
 
-[5]-Withdraw only after successfull authentication
+[5]-Withdraw only after successful authentication
 
 [6]-Menu to update details of Account 
 
@@ -57,7 +57,7 @@ It is a system that features --
 - Withdraw from account
 - Manager Panel 
 - Review application by Manager
-- Updaing Account Details
+- Updating Account Details
 
 
 ## 🎯 Demo
